@@ -1,0 +1,52 @@
+.content{
+  color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .events{
+  margin-top: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    .event{
+  font-size: 18px;
+      width: 600px;
+      height: 120px;
+      display: flex;
+      flex-direction: row;
+      .portrait{
+        background-color: red;
+        width: 20%;
+        .types{
+          display:flex;
+          flex-direction: row;
+          justify-content: center;
+          gap: 10px;
+        }
+      }
+      .information{
+        width: 80%;
+        background-color: coral;
+        gap: 10px;
+        display: flex;
+        flex-direction: column;
+        .days{
+          display: flex;
+          flex-direction: row;
+          gap: 25px;
+          justify-content: center;
+          align-items: center;
+          margin-top: 10px;
+
+        }
+        .desc{
+          text-align: center;
+        }
+        .note{
+          text-align: center;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
