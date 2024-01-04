@@ -1,1 +1,40 @@
-<p>register works!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+
+  <label for="loginEmail">Email</label>
+  <input type="text" id="loginEmail" formControlName="loginEmail">
+  <div *ngIf=" registerForm.get('loginEmail')?.errors?.['required'] && registerForm.get('loginEmail')?.dirty ">
+    ce champ est obligatoire
+  </div>
+
+  <p *ngFor="let item of registerForm.get('loginEmail')?.errors |keyvalue ">
+  test
+  </p>
+  <div>
+    <label for="password">password</label>
+    <input type="text" id="password" formControlName="password">
+  </div>
+  <div>
+    <label for="lastName">lastName</label>
+    <input type="text" id="lastName" formControlName="lastName">
+  </div>
+  <div>
+    <label for="firstName">firstName</label>
+    <input type="text" id="firstName" formControlName="firstName">
+  </div>
+  <div>
+    <label for="gsm">gsm</label>
+    <input type="text" id="gsm" formControlName="gsm">
+  </div>
+  <div>
+    <label for="nickName">nickName</label>
+    <input type="text" id="nickName" formControlName="nickName">
+  </div>
+  <div>
+    <label for="allergie">allergie</label>
+    <input type="text" id="allergie" formControlName="allergie">
+  </div>
+
+
+  <button type="submit">login</button>
+</form>
