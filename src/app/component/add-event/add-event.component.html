@@ -19,7 +19,15 @@
     <p *ngFor="let item of addEventForm.get('endDate')?.errors |keyvalue ">
       <!--      {{geterrors(item.key)}}-->
     </p>
-
+    <div>
+      <label for="status">status</label>
+      <select type="date" id="status" formControlName="status">
+        <option value="{{item.id}}"*ngFor="let item of status" > {{ item.name }}</option>
+      </select>
+      <p *ngFor="let item of addEventForm.get('endDate')?.errors |keyvalue ">
+        <!--      {{geterrors(item.key)}}-->
+      </p>
+    </div>
 <!--    <p *ngIf="addEventForm?.errors['endDateGreaterThanStartedDate']">  </p>-->
 
 
@@ -45,12 +53,14 @@
   <div formArrayName="days">
 
     <div *ngFor="let jour of getdays().controls ;let i=index">
+
       <div [formGroupName]="i" >
-        <select formControlName="typeDay"  id="">
-          <option selected="selected" value="0">choississez un type de jours</option>
+        <label for="{{Object.keys(jour.value)[0]}}">{{Object.keys(jour.value)[0]}}: </label>
+        <select formControlName="typeDay" name="{{Object.keys(jour.value)[0]}}"   id="{{Object.keys(jour.value)[0]}}">
+          <option  value="0">choississez un type de jours</option>
 
          @for(type of typeDay;track type){
-           <option selected="selected" value="{{type.id}}">{{ type.name }}</option>
+           <option  value="{{type.id}}">{{ type.name }}</option>
          }
         </select> </div>
     </div>

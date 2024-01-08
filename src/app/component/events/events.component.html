@@ -2,26 +2,28 @@
 
   <div class="events">
 
-    <div class="event">
+
+
+    <div class="event" *ngFor="let item of events">
 <!--TODO A MODIFIER POUR ETRE DYNAMIQUE-->
       <div class="portrait">
-        <a routerLink="/Events/1"> un event</a>
-        <div class="types">
-          <div class="type">manga</div>
-          <div class="type">jeu</div> </div>
-      </div>
+        <a routerLink="/Events/1"> {{ item.name }}</a>
+<!--        <div class="types">-->
+<!--          <div class="type">manga</div>-->
+<!--          <div class="type">jeu</div> </div>-->
+     </div>
       <div class="information">
 
         <div class="days">
           <div class="daysLeft"> days left : 3</div>
           <div class="totalDays"> total days : 5</div>
         </div>
-        <div class="desc">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur ducimus hic ipsum laborum nihil voluptates.
-        </div>
-        <div class="note">
-          3/5
-        </div>
+<!--        <div class="desc">-->
+<!--          {{item.}}-->
+<!--        </div>-->
+<!--        <div class="note">-->
+<!--          3/5-->
+<!--        </div>-->
       </div>
 
     </div>

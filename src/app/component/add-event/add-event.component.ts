@@ -15,6 +15,11 @@ import {Router} from "@angular/router";
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {TypeDay} from "../../Models/TypeDay";
 import {TypeDayService} from "../../service/typeDay/type-day.service";
+import {AddEventForm} from "../../Models/AddEventForm";
+import {EventsService} from "../../service/event/events.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
+import {Status} from "../../Models/Status";
+import {StatusService} from "../../service/status/status.service";
 
 @Component({
   selector: 'app-add-event',
@@ -30,12 +35,13 @@ import {TypeDayService} from "../../service/typeDay/type-day.service";
   styleUrl: './add-event.component.scss'
 })
 export class AddEventComponent {
-
+  message : string = "";
   addEventForm! : FormGroup
   dateOne :string |null = null;
   dateTwo : string |null = null;
   typeDay! : TypeDay[] ;
-  constructor(private fs : FormBuilder,private Td : TypeDayService,private authS : AuthService, private router : Router) {
+  status! : Status[];
+  constructor(private fs : FormBuilder,private Td : TypeDayService,private authS : AuthService, private router : Router,private EventService : EventsService,private sS : StatusService) {
 
     this.Td.getAll().subscribe({
       next: data => {
@@ -44,6 +50,15 @@ export class AddEventComponent {
       },
       error: (error) => {
           console.error(error)
+      }
+    })
+    this.sS.getAll().subscribe({
+      next: data => {
+
+        this.status = data;
+      },
+      error: (error) => {
+        console.error(error)
       }
     })
     const strongPasswordRegex = /^(?=[^A-Z]*[A-Z])(?=[^a-z]*[a-z])(?=\D*\d).{8,}$/
@@ -55,7 +70,7 @@ export class AddEventComponent {
       location: [null,[Validators.required]],
       adress: [null,Validators.required],
       days : this.fs.array([]),
-      status: [1, []],
+      status: [1, [Validators.required]],
 
     } , {
       validators : [this.checkDate()]
@@ -75,7 +90,7 @@ export class AddEventComponent {
       this.getdays().clear()
       if(diffDays > 0 ){
         for(let i=1 ; i<= diffDays ;i++){
-          this.addDays(i)
+          this.addDays(i+1)
         }
       }
 
@@ -98,8 +113,8 @@ export class AddEventComponent {
   addDays(id : number){
 
     this.getdays().push(this.fs.group({
-      day : ["test",[]],
-      typeDay : [2,[]]
+      ["jour " + id] : [id,[]],
+      typeDay : [1,[Validators.min(1)]]
     }))
 
   }
@@ -109,17 +124,48 @@ export class AddEventComponent {
     // @ts-ignore
     this.submitted = true;
     if(this.addEventForm.valid){
-      console.log(this.addEventForm.get("startDate"))
-      console.log(this.addEventForm.get("endDate"))
-      console.log(this.addEventForm.get("endDate")?.errors)
+      let datas = this.addEventForm.value
+      const dataEvent : AddEventForm = {
+        name : datas.name,
+        adress : datas.adress,
+        startDate : datas.startDate,
+        endDate : datas.endDate,
+        location : datas.location,
+        status : this.status.find(m => m.id === datas.status) as Status
+      }
+      this.EventService.AddEvent(dataEvent).subscribe( {
+        next : data => {
+
+          for (let i = 0; i < datas.days.length ; i++) {
+            let date : Date = new Date(datas.startDate)
+            date = new Date(date.setDate(date.getDate() +i))
+            this.EventService.addDays(data,date,datas.days[i].typeDay).subscribe({
+              next : data => {},
+              error : error => {
+                this.message = error.message
+                console.log(error)
+              }
+            } )
+            this.message = "l'evenement a bien été créé"
+            // this.router.navigate([""])
+          }
+
+
+        },
+        error : error => {
+          console.log(error)
+        }
+
+      })
 
     }else{
       // @ts-ignore
 
-      console.log(this.addEventForm?.errors['endDateGreaterThanStartedDate'])
+
     }
   }
 
   protected readonly Number = Number;
   protected readonly Array = Array;
+  protected readonly Object = Object;
 }
