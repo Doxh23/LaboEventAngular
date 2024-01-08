@@ -3,38 +3,84 @@
 
   <label for="loginEmail">Email</label>
   <input type="text" id="loginEmail" formControlName="loginEmail">
-  <div *ngIf=" registerForm.get('loginEmail')?.errors?.['required'] && registerForm.get('loginEmail')?.dirty ">
-    ce champ est obligatoire
-  </div>
 
+
+@if(  registerForm.get('loginEmail')?.errors?.["email"] && registerForm.get('loginEmail')?.errors?.["email"]?.value !== true   && registerForm.get('loginEmail')?.touched){
+  <p> le champ doit etre un email</p>
+
+}
   <p *ngFor="let item of registerForm.get('loginEmail')?.errors |keyvalue ">
-  test
+    {{geterrors(item)}}
   </p>
   <div>
     <label for="password">password</label>
     <input type="text" id="password" formControlName="password">
+
+    <div class="text-red-400 text-sm" *ngIf="registerForm.get('password')?.dirty">
+
+      <p class="block" [ngClass]="{'text-primary': registerForm?.get('password')?.value?.match('^(?=.*[A-Z])')}">At least uppercase letter.</p>
+
+      <p class="block" [ngClass]="{'text-primary': registerForm?.get('password')?.value?.match('(?=.*[a-z])')}">At least one lowercase letter.</p>
+
+      <p class="block" [ngClass]="{'text-primary': registerForm?.get('password')?.value?.match('(.*[0-9].*)')}">At least one digit.</p>
+
+      <p class="block" [ngClass]="{'text-primary': registerForm?.get('password')?.value?.match('(?=.*[!@#$%^&*])')}">At least one special character.</p>
+
+      <p class="block" [ngClass]="{'text-primary': registerForm?.get('password')?.value?.match('.{8,}')}">At least 8 characters long.</p>
+
+    </div>
+
+    <p *ngFor="let item of registerForm.get('password')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
   </div>
   <div>
     <label for="lastName">lastName</label>
     <input type="text" id="lastName" formControlName="lastName">
+    <p *ngFor="let item of registerForm.get('lastName')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
   </div>
   <div>
     <label for="firstName">firstName</label>
     <input type="text" id="firstName" formControlName="firstName">
+    <p *ngFor="let item of registerForm.get('firstName')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
   </div>
   <div>
     <label for="gsm">gsm</label>
     <input type="text" id="gsm" formControlName="gsm">
+    @if( !registerForm.get('gsm')?.value?.match("^((\\+32-?)|0)?[0-9]{9}$") ){
+      <p> veuillez fournir un numero valid</p>
+
+    }
+    <p *ngFor="let item of registerForm.get('gsm')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
   </div>
   <div>
     <label for="nickName">nickName</label>
     <input type="text" id="nickName" formControlName="nickName">
+    <p *ngFor="let item of registerForm.get('nickName')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
   </div>
   <div>
     <label for="allergie">allergie</label>
     <input type="text" id="allergie" formControlName="allergie">
+    <p *ngFor="let item of registerForm.get('allergie')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
+  </div>
+  <div>
+    <label for="infoSupp">infoSupp</label>
+    <input type="text" id="infoSupp" formControlName="infoSupp">
+    <p *ngFor="let item of registerForm.get('infoSupp')?.errors |keyvalue ">
+      {{geterrors(item.key)}}
+    </p>
   </div>
 
 
-  <button type="submit">login</button>
+  <button type="submit">s'inscire</button>
 </form>

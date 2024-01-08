@@ -1,0 +1,63 @@
+<form [formGroup]="addEventForm" (ngSubmit)="onSubmit()">
+
+
+    <div>
+    <label for="name">name</label>
+    <input type="text" id="name" formControlName="name">
+    <p *ngFor="let item of addEventForm.get('name')?.errors |keyvalue ">
+<!--      {{geterrors(item.key)}}-->
+    </p></div>
+  <div>
+    <label for="startDate">startDate</label>
+    <input type="date" id="startDate" formControlName="startDate">
+    <p *ngFor="let item of addEventForm.get('startDate')?.errors |keyvalue ">
+      <!--      {{geterrors(item.key)}}-->
+    </p></div>
+  <div>
+    <label for="endDate">EndDate</label>
+    <input type="date" id="endDate" formControlName="endDate">
+    <p *ngFor="let item of addEventForm.get('endDate')?.errors |keyvalue ">
+      <!--      {{geterrors(item.key)}}-->
+    </p>
+
+<!--    <p *ngIf="addEventForm?.errors['endDateGreaterThanStartedDate']">  </p>-->
+
+
+  </div>
+  <div>
+    <label for="location">location</label>
+    <input type="text" id="location" formControlName="location">
+    <p *ngFor="let item of addEventForm.get('location')?.errors |keyvalue ">
+      <!--      {{geterrors(item.key)}}-->
+    </p></div>
+  <div>
+    <label for="adress">adress</label>
+
+    <textarea name="adress" id="adress" formControlName="adress" cols="30" rows="10"></textarea>
+    <p *ngFor="let item of addEventForm.get('adress')?.errors |keyvalue ">
+      <!--      {{geterrors(item.key)}}-->
+    </p></div>
+
+
+
+@if( addEventForm.get("startDate")?.value !== 0 && calculateDiff(addEventForm.get("startDate")?.value,addEventForm.get("endDate")?.value) > 0 ){
+
+  <div formArrayName="days">
+
+    <div *ngFor="let jour of getdays().controls ;let i=index">
+      <div [formGroupName]="i" >
+        <select formControlName="typeDay"  id="">
+          <option selected="selected" value="0">choississez un type de jours</option>
+
+         @for(type of typeDay;track type){
+           <option selected="selected" value="{{type.id}}">{{ type.name }}</option>
+         }
+        </select> </div>
+    </div>
+  </div>
+}
+
+
+
+  <button type="submit">s'inscire</button>
+</form>
