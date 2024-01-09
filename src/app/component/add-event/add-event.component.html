@@ -8,6 +8,14 @@
 <!--      {{geterrors(item.key)}}-->
     </p></div>
   <div>
+
+      <label for="description">description</label>
+      <textarea name="description" id="description" cols="30" rows="10" formControlName="description"></textarea>
+
+      <p *ngFor="let item of addEventForm.get('description')?.errors |keyvalue ">
+        <!--      {{geterrors(item.key)}}-->
+      </p></div>
+    <div>
     <label for="startDate">startDate</label>
     <input type="date" id="startDate" formControlName="startDate">
     <p *ngFor="let item of addEventForm.get('startDate')?.errors |keyvalue ">

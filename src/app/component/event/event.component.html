@@ -1,20 +1,39 @@
-<h1>nom de l'event</h1>
+
+<ng-container *ngIf="event">
+<h1>{{ event.name }}</h1>
 <div class="informations">
-  <div class="name"> nom : <span>un nom</span></div>
-  <div class="types">
-  type :
-    <div class="type">type1</div>
-    <div class="type">type2</div>
-  </div>
+  <div class="name"> nom : <span>{{ event.name }}</span></div>
+<!--  <div class="types">-->
+<!--  type :-->
+<!--    <div class="type">type1</div>-->
+<!--    <div class="type">type2</div>-->
+<!--  </div>-->
   <div class="desc">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At culpa debitis, dolores ex iste nisi ut voluptatem voluptatum. Laboriosam nesciunt optio praesentium quo quod. Ut!
+    {{ event.description }}
   </div>
   <div class="note"> note : 3/5</div>
 </div>
 <hr>
 <div class="daysEvent">
-  <div><a routerLink="/Events/1/1"></a></div>
-  <div>day2</div>
-  <div>day3</div>
-  <div>day4</div>
+
+
+  <div routerLink="/Events/{{ id }}/{{ item.id }}" *ngFor="let item of event.days; let i=index">
+    <div>day {{ i+1 }}</div>
+    <div>{{ item.date }}</div>
+    <div>{{ item.type.name }}</div>
+
+
+  </div>
+
+
 </div>
+  <div >
+    <h2>comment</h2>
+    <div *ngFor="let item of event.comments; let i=index">
+      <div>portrait</div>
+      <div> {{ item.content }}</div>
+    </div>
+    <div></div>
+    <div></div>
+  </div>
+</ng-container>

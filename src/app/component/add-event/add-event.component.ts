@@ -67,6 +67,7 @@ export class AddEventComponent {
       name: [null,[Validators.required]],
       startDate: [0,[Validators.required]],
       endDate :[ 0,[Validators.required]],
+      description : [null,Validators.required],
       location: [null,[Validators.required]],
       adress: [null,Validators.required],
       days : this.fs.array([]),
@@ -90,7 +91,7 @@ export class AddEventComponent {
       this.getdays().clear()
       if(diffDays > 0 ){
         for(let i=1 ; i<= diffDays ;i++){
-          this.addDays(i+1)
+          this.addDays(i)
         }
       }
 
@@ -127,6 +128,7 @@ export class AddEventComponent {
       let datas = this.addEventForm.value
       const dataEvent : AddEventForm = {
         name : datas.name,
+        description : datas.description,
         adress : datas.adress,
         startDate : datas.startDate,
         endDate : datas.endDate,
