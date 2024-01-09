@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AuthService} from "../../service/auth/auth.service";
 import {Router} from "@angular/router";
+import {jwtDecode, JwtPayload} from "jwt-decode";
+import {json} from "node:stream/consumers";
+import {ConnectedUser} from "../../Models/connectedUser";
 
 @Component({
   selector: 'app-login',
@@ -26,12 +29,28 @@ export class LoginComponent {
     onSubmit(): void {
     console.log("In Submit");
     if (this.formgrp.valid) {
-       this.authService.login(this.formgrp.value).subscribe({
-         next : data => {
-            this.authService.token = data;
-            this.router.navigate([""])
+       // @ts-ignore
+      this.authService.login<any>(this.formgrp.value).subscribe({
+         next : (data: { token: string; })  => {
+            this.authService.token = data.token;
+            // @ts-ignore
+           let decodedToken : any = jwtDecode(data.token)
+           console.log(decodedToken)
+           localStorage.setItem("user",JSON.stringify({
+
+
+             token : data.token ,
+             id : decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"],
+             role : decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+           }))
+           // @ts-ignore
+
+           this.authService.isConnectedBehavior.next(JSON.parse(localStorage.getItem<ConnectedUser>("user")))
+
+
+             this.router.navigate([""])
          },
-         error : (error) => {
+         error : (error: { error: any; }) => {
            console.log(error.error)
          }
        })

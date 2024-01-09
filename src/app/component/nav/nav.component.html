@@ -3,7 +3,7 @@
     <li><a routerLink=""> home</a></li>
 
     <li><a routerLink="Events" >events</a></li>
-    @if(this.auth.token){
+    @if(this.auth.isConnectedBehavior.value){
       <li><a (click)="disconnect()"> disconnect</a></li>
     } @else {
       <li><a routerLink="Login"> login</a></li>

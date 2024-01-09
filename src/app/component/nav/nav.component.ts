@@ -19,6 +19,13 @@ auth! : AuthService
   }
 
   disconnect(){
+  try{
     this.aS.disconnect()
+    localStorage.removeItem("user")
+    this.aS.isConnectedBehavior.next(null)
+  }catch (err){
+    console.log(err)
+  }
+
   }
 }

@@ -15,9 +15,9 @@ export class CommentsService {
     return this.http.get<any>(`https://localhost:7213/api/Comments/event/${id}`)
 
   }
-  getById(id:number): Observable<any>{
+  addComment(data : Comment): Observable<any>{
 
-    return this.http.get<any>(`https://localhost:7213/api/Event/${id}`)
+    return this.http.post<any>(`'https://localhost:7213/api/Comments`,data)
 
   }
   AddEvent(data : AddEventForm): Observable<number>{
